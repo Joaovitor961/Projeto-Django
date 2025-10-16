@@ -1,0 +1,1 @@
+# .\venv\Scripts\Activate.ps1 -> comando para ativar o venv no windows.
