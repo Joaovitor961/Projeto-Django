@@ -1,6 +1,6 @@
 # 📚 Sistema Acadêmico — Projeto Django (Checkpoint 1)
 
-Este projeto é uma aplicação **Django** desenvolvida como parte do trabalho prático da disciplina de **Projeto e Implementação de Sistemas**.  
+Este projeto é uma aplicação **Django** desenvolvida como parte do trabalho prático da disciplina de **Programação Web**.  
 O sistema implementa um modelo acadêmico simples com entidades **Aluno**, **Professor**, **Turma** e **Disciplina**, incluindo a integração com o sistema de usuários padrão do Django (`auth.User`).
 
 ---
@@ -11,6 +11,7 @@ Desenvolver um sistema web com autenticação e ambiente administrativo para ges
 ---
 
 ## ⚙️ Estrutura do Projeto
+```bash
 Projeto-Django/
 ├── code/
 │ └── proj_web/
@@ -28,13 +29,13 @@ Projeto-Django/
 │ └── docs/
 │ ├── diagram_myapp.png
 │ └── modelagem.md
-
+```
 ---
 
 ## 🧠 Modelagem do Domínio
 O diagrama a seguir foi gerado automaticamente com `django-extensions`:
 
-![ER Diagram](docs/diagram_myapp.png)
+![ER Diagram](code/proj_web/docs/diagram_myapp.png)
 
 Resumo das entidades:
 
