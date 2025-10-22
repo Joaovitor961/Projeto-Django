@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',
-    'django_extensions' # fornece o comando graph_models, para fazer 
+    'django_extensions' # fornece o comando graph_models, para fazer o diagrama
 ]
 
 MIDDLEWARE = [

@@ -41,8 +41,6 @@ Observações: Turma possui vários Alunos (relação 1:N). No diagrama a associ
 - **id** — BigAutoField (PK)  
 - **nome** — CharField
 
-Observações: atualmente não há relacionamentos entre `Disciplina` e `Turma`/`Professor` no modelo — considerar adicionar uma tabela intermediária `TurmaDisciplina` ou M2M `Disciplina.turmas = ManyToManyField(Turma)` se for necessário mapear quais turmas têm quais disciplinas.
-
 ---
 
 ### User (Django `auth.User`)
@@ -59,17 +57,6 @@ Observações: atualmente não há relacionamentos entre `Disciplina` e `Turma`/
 
 ---
 
-## Observações / Recomendações rápidas
-1. **Disciplina ↔ Turma / Professor**: se o escopo do sistema exigir atribuição de disciplinas a turmas ou professores a disciplinas, crie:
-   - `Disciplina.turmas = ManyToManyField(Turma)`  
-   - ou `Turma.disciplinas = ManyToManyField(Disciplina)`  
-   - e, se quiser armazenar carga/horas, use model intermediário (`through`) com campos adicionais.
-2. **Usuário com múltiplos papeis**: atualmente um `User` só pode ser `Aluno` ou `Professor` (1:1). Se houver casos em que um usuário possa ser ambos, repensar a modelagem (por ex. usar perfis vinculados com `roles` ou permitir múltiplos perfis).
-3. **Campos importantes faltantes**: considere adicionar timestamps (`created_at`, `updated_at`) e validações (ex.: `unique=True` em `matricula`).
-4. **Nomes e `related_name`**: adicionar `related_name` nas FKs/OneToOne facilita queries (ex.: `turma.alunos.all()` já funciona, mas `related_name` deixa mais explícito).
-
----
-
 ## Como o diagrama foi gerado (comando usado)
 No diretório onde está o `manage.py`:
 ```bash
@@ -80,16 +67,3 @@ python manage.py graph_models myapp -o docs/diagram_myapp.png --pygraphviz
 ### Avisos observados na execução
 Durante a geração apareceram avisos do Pango sobre fontes (ex.: `couldn't load font "Roboto..."`) — **são apenas warnings de renderização de fonte** e não impedem a criação da imagem; o Graphviz usa fontes alternativas automaticamente.
 
----
-
-## Arquivos adicionados sugeridos para o repositório
-- `docs/diagram_myapp.png`  ← imagem gerada (já está aqui)
-- `docs/modelagem.md`      ← este arquivo
-- `README.md`              ← referência rápida para rodar e visualizar
-
-### Commit sugerido
-```bash
-git add docs/diagram_myapp.png docs/modelagem.md
-git commit -m "Add auto-generated ER diagram and modelagem.md (django-extensions)"
-git push
-```
