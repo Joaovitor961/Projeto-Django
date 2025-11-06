@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Turma
+from .models import Turma, Disciplina
 
 
 class RegisterForm(UserCreationForm):
@@ -37,4 +37,23 @@ class RegisterForm(UserCreationForm):
         elif role == 'professor':
             if not cleaned.get('situacao'):
                 self.add_error('situacao', 'Situação é obrigatória para professores.')
+        return cleaned
+
+
+class DisciplinaForm(forms.ModelForm):
+    # Use checkboxes so professors can clearly select multiple turmas
+    turmas = forms.ModelMultipleChoiceField(
+        queryset=Turma.objects.all(), required=True,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = Disciplina
+        fields = ('nome',)
+
+    def clean(self):
+        cleaned = super().clean()
+        turmas = cleaned.get('turmas')
+        if not turmas or len(turmas) == 0:
+            self.add_error('turmas', 'Selecione ao menos uma turma.')
         return cleaned

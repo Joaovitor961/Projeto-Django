@@ -14,4 +14,9 @@ urlpatterns = [
 
     # Painel do professor
     path('professor/home/', views.principal_professor, name='principal_professor'),
+    path('professor/disciplinas/add/', views.add_disciplina, name='add_disciplina'),
+    path('professor/disciplinas/<int:pk>/edit/', views.edit_disciplina, name='edit_disciplina'),
+    path('professor/disciplinas/<int:pk>/delete/', views.delete_disciplina, name='delete_disciplina'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('disciplinas/<int:pk>/', views.disciplina_detail, name='disciplina_detail'),
 ]

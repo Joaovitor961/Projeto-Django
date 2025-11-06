@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="container mt-5">
+  <h3>Disciplina: {{ disciplina.nome }}</h3>
+  <p>Professor: <strong>{% if disciplina.professor %}{{ disciplina.professor.user.get_full_name|default:disciplina.professor.user.username }}{% else %}Sem professor atribuído{% endif %}</strong></p>
+
+  {% if is_professor_owner and students_by_turma %}
+    <h5 class="mt-4">Alunos por turma</h5>
+    {% for turma, alunos in students_by_turma %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h6 class="card-title">Turma: {{ turma.nome }}</h6>
+          {% if alunos %}
+            <ul class="list-group">
+              {% for a in alunos %}
+                <li class="list-group-item">{{ a.user.get_full_name|default:a.user.username }} — Matrícula: {{ a.matricula }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">Nenhum aluno cadastrado nesta turma.</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <a href="{% url 'dashboard' %}" class="btn btn-link">Voltar</a>
+</div>
+{% endblock %}

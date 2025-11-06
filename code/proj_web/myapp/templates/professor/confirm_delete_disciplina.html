@@ -1,0 +1,13 @@
+{% extends 'professor/baseProfessor.html' %}
+
+{% block conteudo %}
+<div class="container mt-5">
+  <h3>Confirmar exclusão</h3>
+  <p>Tem certeza que deseja excluir a disciplina: <strong>{{ disciplina.nome }}</strong>?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Sim, excluir</button>
+    <a class="btn btn-link" href="{% url 'principal_professor' %}">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

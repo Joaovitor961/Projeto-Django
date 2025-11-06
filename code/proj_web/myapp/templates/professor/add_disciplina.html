@@ -1,0 +1,28 @@
+{% extends 'professor/baseProfessor.html' %}
+
+{% block conteudo %}
+<div class="container mt-5">
+  <h3>Cadastrar Disciplina</h3>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Nome da disciplina</label>
+      {{ form.nome }}
+      {% if form.nome.errors %}
+        <div class="text-danger small">{{ form.nome.errors|striptags }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Turmas</label>
+      {{ form.turmas }}
+      {% if form.turmas.errors %}
+        <div class="text-danger small">{{ form.turmas.errors|striptags }}</div>
+      {% endif %}
+    </div>
+
+    <button class="btn btn-primary" type="submit">Criar</button>
+    <a href="{% url 'principal_professor' %}" class="btn btn-link">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

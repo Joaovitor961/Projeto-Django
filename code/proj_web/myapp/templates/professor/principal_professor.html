@@ -1,7 +1,33 @@
-{% extends 'baseProfessor.html' %}
+{% extends 'professor/baseProfessor.html' %}
 
 {% block conteudo %}
 <div class="container mt-5">
+	<h3>Olá, {{ professor.user.get_full_name|default:professor.user.username }}</h3>
+	<p>Situação: <strong>{{ professor.situacao }}</strong></p>
 
+	<div class="d-flex justify-content-between align-items-center">
+		<h5 class="mt-4">Disciplinas que ministra</h5>
+		<a href="{% url 'add_disciplina' %}" class="btn btn-sm btn-success">Cadastrar disciplina</a>
+	</div>
+
+	{% if disciplinas %}
+		<ul class="list-group mt-2">
+			{% for d in disciplinas %}
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					<div>
+						<strong>{{ d.nome }}</strong>
+						<div class="small text-muted">Turmas: {% for t in d.turmas.all %}{{ t.nome }}{% if not forloop.last %}, {% endif %}{% empty %}Nenhuma{% endfor %}</div>
+					</div>
+						<div>
+							<a href="{% url 'disciplina_detail' d.pk %}" class="btn btn-sm btn-outline-primary me-2">Ver detalhes</a>
+							<a href="{% url 'edit_disciplina' d.pk %}" class="btn btn-sm btn-outline-secondary me-2">Editar</a>
+							<a href="{% url 'delete_disciplina' d.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+						</div>
+					</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p class="text-muted mt-2">Você ainda não ministra nenhuma disciplina.</p>
+	{% endif %}
 </div>
 {% endblock %}
