@@ -15,20 +15,32 @@ Desenvolver um sistema web com autenticação e ambiente administrativo para ges
 Projeto-Django/
 ├── code/
 │ └── proj_web/
-│ ├── manage.py
-│ ├── proj_web/
-│ │ ├── settings.py
-│ │ ├── urls.py
-│ │ └── ...
-│ ├── myapp/
-│ │ ├── models.py # Modelos: Aluno, Professor, Turma, Disciplina
-│ │ ├── admin.py # Modelos registrados no admin
-│ │ ├── views.py # Views básicas
-│ │ ├── urls.py # Rotas da app
-│ │ └── templates/ # Páginas HTML simples
-│ └── docs/
-│ ├── diagram_myapp.png
-│ └── modelagem.md
+│   ├── manage.py
+│   ├── db.sqlite3
+│   ├── docs/
+│   │   └── modelagem.md
+│   ├── myapp/
+│   │   ├── migrations/
+│   │   ├── templates/
+│   │   │   ├── aluno/
+│   │   │   ├── autenticacao/
+│   │   │   ├── disciplina/
+│   │   │   ├── professor/
+│   │   │   └── registration/
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   ├── urls.py
+│   │   └── admin.py
+│   ├── productionfiles/
+│   │   └── mystyles.css
+│   ├── proj_web/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── scripts/
+│   │   └── inspect_db.py
+│   └── staticfiles/
 ```
 ---
 
@@ -42,9 +54,9 @@ Resumo das entidades:
 | Entidade | Campos principais | Relacionamentos |
 |-----------|------------------|-----------------|
 | **Aluno** | `id`, `data_nascimento`, `matricula` | `user` (1:1 `User`), `turma` (N:1 `Turma`) |
-| **Professor** | `id`, `departamento` | `user` (1:1 `User`) |
-| **Turma** | `id`, `nome` | 1:N com `Aluno` |
-| **Disciplina** | `id`, `nome` | sem relacionamentos (isolada) |
+| **Professor** | `id`, `situacao` | `user` (1:1 `User`), `disciplinas` (1:N `Disciplina`) |
+| **Turma** | `id`, `nome` | `alunos` (1:N `Aluno`), `disciplinas` (N:N `Disciplina`) |
+| **Disciplina** | `id`, `nome` | `professor` (N:1 `Professor`), `turmas` (N:N `Turma`) |
 | **User** | `username`, `email`, `password` | 1:1 com `Aluno` e `Professor` |
 
 Mais detalhes: [docs/modelagem.md](docs/modelagem.md)
