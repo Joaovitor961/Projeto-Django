@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    margin: 0;
 }
 
 body {
@@ -17,5 +18,6 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem 0;
+    margin: 0px;
 }
 
