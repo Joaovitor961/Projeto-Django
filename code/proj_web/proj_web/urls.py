@@ -5,5 +5,4 @@ from myapp import views
 urlpatterns = [
     path('', include('myapp.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),  # permite /accounts/login/
 ]

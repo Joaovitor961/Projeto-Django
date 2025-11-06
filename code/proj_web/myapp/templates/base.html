@@ -30,7 +30,14 @@
                 <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/"><i class="bi bi-house-door-fill"></i> Início</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {% if request.path == '/auth/login/' %}active{% endif %}" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                {% if request.user.is_authenticated %}
+                  <form method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button class="btn btn-link nav-link p-0" type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+                  </form>
+                {% else %}
+                  <a class="nav-link {% if request.path == '/auth/login/' %}active{% endif %}" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                {% endif %}
               </li>
               <li class="nav-item">
                 <a class="nav-link {% if request.path == '/auth/cadastro/' %}active{% endif %}" href="/auth/cadastro"><i class="bi bi-person-plus-fill"></i> Cadastrar</a>
@@ -43,6 +50,18 @@
         </div>
       </nav>
     </header>
+
+    {# mensagens flash (django.contrib.messages) #}
+    <div class="container mt-3">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
 
     <main class="flex-fill">
       {% block conteudo %}

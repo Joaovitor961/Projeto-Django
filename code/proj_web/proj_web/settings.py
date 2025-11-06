@@ -125,9 +125,10 @@ STATICFILES_DIRS = [
 ]
 
 # Redirects after login/logout
-LOGIN_REDIRECT_URL = 'principal_aluno' 
+# Use URL paths for LOGIN_URL to ensure login_required redirects to the correct page
+LOGIN_REDIRECT_URL = 'principal_aluno'
 LOGOUT_REDIRECT_URL = 'home'
-LOGIN_URL = 'login'
+LOGIN_URL = '/auth/login/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
