@@ -22,18 +22,117 @@
         </div>
       {% endif %}
 
-      {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">Tipo de conta</label>
+        {{ form.role }}
+        {% if form.role.errors %}
+          <div class="text-danger small">{{ form.role.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <hr>
+
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Usuário</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="text-danger small">{{ form.username.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_first_name" class="form-label">Nome</label>
+        {{ form.first_name }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_last_name" class="form-label">Sobrenome</label>
+        {{ form.last_name }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_email" class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password1" class="form-label">Senha</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+          <div class="text-danger small">{{ form.password1.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password2" class="form-label">Confirme a senha</label>
+        {{ form.password2 }}
+      </div>
+
+      <div id="aluno-fields" style="display:none;">
+        <hr>
+        <h6>Dados do Aluno</h6>
         <div class="mb-3">
-          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}
-            <div class="text-danger small">{{ field.errors|striptags }}</div>
+          <label for="id_matricula" class="form-label">Matrícula</label>
+          {{ form.matricula }}
+          {% if form.matricula.errors %}
+            <div class="text-danger small">{{ form.matricula.errors|striptags }}</div>
           {% endif %}
         </div>
-      {% endfor %}
+        <div class="mb-3">
+          <label for="id_data_nascimento" class="form-label">Data de nascimento</label>
+          {{ form.data_nascimento }}
+          {% if form.data_nascimento.errors %}
+            <div class="text-danger small">{{ form.data_nascimento.errors|striptags }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          <label for="id_turma" class="form-label">Turma</label>
+          {{ form.turma }}
+          {% if form.turma.errors %}
+            <div class="text-danger small">{{ form.turma.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div id="professor-fields" style="display:none;">
+        <hr>
+        <h6>Dados do Professor</h6>
+        <div class="mb-3">
+            <label for="id_situacao" class="form-label">Situação</label>
+            {{ form.situacao }}
+            {% if form.situacao.errors %}
+              <div class="text-danger small">{{ form.situacao.errors|striptags }}</div>
+            {% endif %}
+        </div>
+      </div>
 
       <button type="submit" class="btn btn-success w-100 py-2">Criar conta</button>
     </form>
+
+    <script>
+      function toggleRoleFields(){
+        const roleElems = document.getElementsByName('role');
+        let role = null;
+        for(const el of roleElems){ if(el.checked){ role = el.value; break; } }
+        const aluno = document.getElementById('aluno-fields');
+        const prof = document.getElementById('professor-fields');
+        if(role === 'aluno'){
+          aluno.style.display = 'block';
+          prof.style.display = 'none';
+        } else if(role === 'professor'){
+          aluno.style.display = 'none';
+          prof.style.display = 'block';
+        } else {
+          aluno.style.display = 'none';
+          prof.style.display = 'none';
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function(){
+        const roleElems = document.getElementsByName('role');
+        for(const el of roleElems) el.addEventListener('change', toggleRoleFields);
+        toggleRoleFields();
+      });
+    </script>
 
     <div class="text-center mt-3">
       <p class="mb-1">Já possui uma conta?

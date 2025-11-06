@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .forms import RegisterForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -13,23 +13,33 @@ def home(request):
 
 
 def register(request):
-    """Register a new user using Django's built-in UserCreationForm."""
-    # preserve 'next' so after creating account user can be redirected to login with next
+    """Register a new user and create either Aluno or Professor profile depending on role."""
     next_param = request.GET.get('next') or request.POST.get('next')
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            role = form.cleaned_data.get('role')
+            if role == 'aluno':
+                from .models import Aluno
+                matricula = form.cleaned_data.get('matricula')
+                data_nascimento = form.cleaned_data.get('data_nascimento')
+                turma = form.cleaned_data.get('turma')
+                Aluno.objects.create(user=user, matricula=matricula, data_nascimento=data_nascimento, turma=turma)
+            elif role == 'professor':
+                from .models import Professor
+                situacao = form.cleaned_data.get('situacao')
+                Professor.objects.create(user=user, situacao=situacao)
+
             messages.success(request, 'Conta criada com sucesso. Faça login.')
-            # redirect to login, preserving next if present
             if next_param:
                 qs = urlencode({'next': next_param})
                 login_url = reverse('login')
                 return redirect(f"{login_url}?{qs}")
             return redirect('login')
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
 
     return render(request, 'autenticacao/register.html', {'form': form, 'next': next_param})
 
