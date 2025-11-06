@@ -25,22 +25,31 @@
           </button>
 
           <div class="collapse navbar-collapse" id="navbarNav">
+            {% url 'login' as login_url %}
+            {% url 'register' as register_url %}
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
                 <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/"><i class="bi bi-house-door-fill"></i> Início</a>
               </li>
               <li class="nav-item">
                 {% if request.user.is_authenticated %}
+                  <span class="nav-link">Olá, {{ request.user.get_full_name|default:request.user.username }}</span>
+                {% else %}
+                  <a class="nav-link {% if request.path == login_url %}active{% endif %}" href="{{ login_url }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                {% endif %}
+              </li>
+              {% if not request.user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == register_url %}active{% endif %}" href="{{ register_url }}"><i class="bi bi-person-plus-fill"></i> Cadastrar</a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                {% if request.user.is_authenticated %}
                   <form method="post" action="{% url 'logout' %}" class="d-inline">
                     {% csrf_token %}
                     <button class="btn btn-link nav-link p-0" type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
                   </form>
-                {% else %}
-                  <a class="nav-link {% if request.path == '/auth/login/' %}active{% endif %}" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                 {% endif %}
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if request.path == '/auth/cadastro/' %}active{% endif %}" href="/auth/cadastro"><i class="bi bi-person-plus-fill"></i> Cadastrar</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link {% if request.path == '/admin' %}active{% endif %}" href="/admin"><i class="bi bi-lock-fill"></i> Admin</a>
